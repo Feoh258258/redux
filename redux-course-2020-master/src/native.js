@@ -1,6 +1,4 @@
-import {createStore} from './createStore'
 import './styles.css'
-import {rootReducer} from './redux/rootReducer'
 
 const myCount = document.getElementById('counter')
 const myAddBtn = document.getElementById('add')
@@ -8,32 +6,32 @@ const myBtn = document.getElementById('sub')
 const myAsyncBtn = document.getElementById('async')
 const myThemeBtn = document.getElementById('theme')
 
-const store = createStore(rootReducer, 0)
+let state = 0
+
+function render() {
+  counter.textContent = state.toString()
+}
 
 
 myAddBtn.addEventListener('click', () => {
-  store.dispatch( { type: 'INCREMENT' } )
+  state++
+  render()
 })
 
 myBtn.addEventListener('click', () => {
-  store.dispatch( { type: 'DECREMENT' } )
+  state--
+  render()
 })
 
 myAsyncBtn.addEventListener('click', () => {
-
+  setTimeout( () => {
+    state++
+    render()
+  }, 2000)
 })
-
-store.subscribe( () => {
-  const state = store.getState()
-
-  counter.textContent = state
-})
-
-
-store.dispatch( {type: 'INIT_APPLICATION'})
 
 myThemeBtn.addEventListener('click', ()=>{
-  //document.body.classList.toggle('dark')
+  document.body.classList.toggle('dark')
 })
 
 
